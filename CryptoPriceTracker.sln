@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36221.1 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoPriceTracker.Api", "CryptoPriceTracker.Api\CryptoPriceTracker.Api.csproj", "{8447AF71-3F44-42F9-99FA-88C134872A44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoPriceTracker.Application", "CryptoPriceTracker.Application\CryptoPriceTracker.Application.csproj", "{2840AB33-53FD-4B05-955E-A94378CC1D0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoPriceTracker.Infrastructure", "CryptoPriceTracker.Infrastructure\CryptoPriceTracker.Infrastructure.csproj", "{D2FE9BE5-B557-4AE4-93A1-ECC983C84D55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoPriceTracker.Domain", "CryptoPriceTracker.Domain\CryptoPriceTracker.Domain.csproj", "{C9F3EAD3-BC06-4776-8507-D55AAAB3999D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoPriceTracker.Ui", "CryptoPriceTracker.Ui\CryptoPriceTracker.Ui.csproj", "{C01A98CE-EA26-4774-B12C-014F6642B002}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8447AF71-3F44-42F9-99FA-88C134872A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8447AF71-3F44-42F9-99FA-88C134872A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8447AF71-3F44-42F9-99FA-88C134872A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8447AF71-3F44-42F9-99FA-88C134872A44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2840AB33-53FD-4B05-955E-A94378CC1D0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2840AB33-53FD-4B05-955E-A94378CC1D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2840AB33-53FD-4B05-955E-A94378CC1D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2840AB33-53FD-4B05-955E-A94378CC1D0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2FE9BE5-B557-4AE4-93A1-ECC983C84D55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2FE9BE5-B557-4AE4-93A1-ECC983C84D55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2FE9BE5-B557-4AE4-93A1-ECC983C84D55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2FE9BE5-B557-4AE4-93A1-ECC983C84D55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F3EAD3-BC06-4776-8507-D55AAAB3999D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F3EAD3-BC06-4776-8507-D55AAAB3999D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F3EAD3-BC06-4776-8507-D55AAAB3999D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F3EAD3-BC06-4776-8507-D55AAAB3999D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C01A98CE-EA26-4774-B12C-014F6642B002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C01A98CE-EA26-4774-B12C-014F6642B002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C01A98CE-EA26-4774-B12C-014F6642B002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C01A98CE-EA26-4774-B12C-014F6642B002}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C62FEE9-EC13-46C2-BED6-2EA790D7D59C}
+	EndGlobalSection
+EndGlobal

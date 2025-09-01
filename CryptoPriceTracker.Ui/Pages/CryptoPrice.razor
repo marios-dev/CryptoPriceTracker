@@ -1,0 +1,102 @@
+﻿@page "/price"
+@inject HttpClient Http
+@implements IDisposable
+
+<h3>Crypto Price Tracker</h3>
+
+<div style="margin-bottom:10px;">
+    <input @bind="symbol" placeholder="Enter symbol (BTC, ETH, SOL)" />
+    <button @onclick="GetPrice">Get Price</button>
+</div>
+
+@if (priceResult != null)
+{
+    <p><b>@priceResult.Symbol</b>: $@priceResult.PriceUsd (retrieved @priceResult.RetrievedAt.ToLocalTime())</p>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p style="color:red">@errorMessage</p>
+}
+
+@code {
+    private string symbol = "BTC";
+    private CryptoPriceModel? priceResult;
+    private string? errorMessage;
+
+    private System.Timers.Timer? timer;
+
+    protected override void OnInitialized()
+    {
+        // Create a timer to auto-refresh every 10 seconds
+        timer = new System.Timers.Timer(10000);
+        timer.Elapsed += async (sender, e) => await InvokeAsync(GetPrice);
+        timer.AutoReset = true;
+        timer.Start();
+    }
+
+    private async Task GetPrice()
+    {
+        try
+        {
+            errorMessage = null;
+            // priceResult = await Http.GetFromJsonAsync<CryptoPriceModel>($"api/prices/{symbol}");
+            priceResult = await GetPriceAsync(symbol);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = ex.Message;
+            priceResult = null;
+        }
+
+        // Refresh UI
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        timer?.Stop();
+        timer?.Dispose();
+    }
+
+    public class CryptoPriceModel
+    {
+        public string Symbol { get; set; } = string.Empty;
+        public decimal PriceUsd { get; set; }
+        public DateTime RetrievedAt { get; set; }
+    }
+
+    private static readonly Dictionary<string, string> SymbolToId = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { "BTC", "bitcoin" },
+            { "ETH", "ethereum" },
+            { "SOL", "solana" },
+            { "DOGE", "dogecoin" },
+            { "ADA", "cardano" }
+        };
+
+    public async Task<CryptoPriceModel> GetPriceAsync(string symbol)
+    {
+        if (!SymbolToId.TryGetValue(symbol, out var id))
+        {
+            throw new Exception($"Symbol {symbol} is not supported.");
+        }
+
+        var url = $"simple/price?ids={id}&vs_currencies=usd";
+        var client = new HttpClient();
+        var starter = client.BaseAddress = new Uri("https://api.coingecko.com/api/v3/");
+        var response = await client.GetFromJsonAsync<Dictionary<string, Dictionary<string, decimal>>>(url);
+
+        if (response != null && response.ContainsKey(id))
+        {
+            return new CryptoPriceModel
+            {
+                Symbol = symbol.ToUpper(),
+                PriceUsd = response[id]["usd"],
+                RetrievedAt = DateTime.UtcNow
+            };
+        }
+
+        throw new Exception($"Price for {symbol} not found.");
+    }
+}
