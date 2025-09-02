@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Register services
 builder.Services.AddHttpClient<ICryptoPriceService, CoinGeckoService>();
+builder.Services.AddHttpClient<ICryptoMarketService, CryptoMarketService>();
 builder.Services.AddScoped<CryptoPriceAppService>();
+builder.Services.AddScoped<CryptoMarketService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -36,6 +38,19 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapGet("/", () => Results.Redirect("/swagger"));
+app.MapGet("/api/CryptoList", async (CryptoMarketService service) =>
+{
+    try
+    {
+        var list = await service.GetTop100Cryptos();
+        return Results.Ok(list);
+    }
+    catch (Exception)
+    {
+
+        throw;
+    }
+});
 
 app.MapGet("/api/prices/{symbol}", async (string symbol, CryptoPriceAppService service) =>
 {

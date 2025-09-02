@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,5 +20,6 @@ namespace CryptoPriceTracker.Application.Services
 
         public Task<CryptoPrice> GetPriceAsync(string symbol) =>
             _cryptoPriceService.GetPriceAsync(symbol);
+
     }
 }

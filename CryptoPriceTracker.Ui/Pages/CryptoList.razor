@@ -1,0 +1,62 @@
+﻿@page "/cryptolist"
+@inject HttpClient Http
+
+<h3>Top 100 Cryptos</h3>
+
+@if (cryptos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Price (USD)</th>
+                <th>Market Cap</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var coin in cryptos)
+            {
+                <tr>
+                    <td>@coin.MarketCapRank</td>
+                    <td>@coin.Name</td>
+                    <td>@coin.Symbol.ToUpper()</td>
+                    <td>$@coin.CurrentPrice.ToString("N2")</td>
+                    <td>$@coin.MarketCap.ToString("N0")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Coin>? cryptos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var client = new HttpClient();
+        var starter = client.BaseAddress = new Uri("https://api.coingecko.com");
+        client.DefaultRequestHeaders.Add("User-Agent", "CryptoPriceTrackerApp");
+        var url = "api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
+        cryptos = await client.GetFromJsonAsync<List<Coin>>(url);
+    }
+
+    public class Coin
+    {
+        [JsonPropertyName("market_cap_rank")]
+        public int MarketCapRank { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+        [JsonPropertyName("symbol")]
+        public string Symbol { get; set; }
+        [JsonPropertyName("current_price")]
+        public decimal CurrentPrice { get; set; }
+        [JsonPropertyName("market_cap")]
+        public decimal MarketCap { get; set; }
+    }
+}
