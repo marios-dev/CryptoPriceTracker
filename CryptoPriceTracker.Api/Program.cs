@@ -13,23 +13,7 @@ builder.Services.AddScoped<CryptoMarketService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//Cors
-builder.Services.AddCors(options =>
-{
-    
-    options.AddPolicy("AllowBlazorDev", policy =>
-    {
-        policy
-            .WithOrigins("https://localhost:5001") // your Blazor app URL
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
-
 var app = builder.Build();
-
-//Cors
-app.UseCors("AllowBlazorDev");
 
 if (app.Environment.IsDevelopment())
 {
@@ -45,10 +29,9 @@ app.MapGet("/api/CryptoList", async (CryptoMarketService service) =>
         var list = await service.GetTop100Cryptos();
         return Results.Ok(list);
     }
-    catch (Exception)
+    catch (Exception ex)
     {
-
-        throw;
+        throw new Exception($"Method causing issue: {service.GetTop100Cryptos()}", ex);
     }
 });
 
