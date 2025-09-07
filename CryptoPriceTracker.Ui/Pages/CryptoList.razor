@@ -9,6 +9,13 @@
 }
 else
 {
+    <label for="orderSelect">Order By: </label>
+    <select @bind="selectedOrder" @bind:after="LoadData">
+    <option value="marketcap">Market Cap</option>
+    <option value="price">Price</option>
+    <option value="rank">Rank</option>
+</select>
+
     <table class="table">
         <thead>
             <tr>
@@ -36,14 +43,11 @@ else
 
 @code {
     private List<Coin>? cryptos;
+    private string? selectedOrder = "marketcap";
 
     protected override async Task OnInitializedAsync()
     {
-        var client = new HttpClient();
-        var starter = client.BaseAddress = new Uri("https://api.coingecko.com");
-        client.DefaultRequestHeaders.Add("User-Agent", "CryptoPriceTrackerApp");
-        var url = "api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
-        cryptos = await client.GetFromJsonAsync<List<Coin>>(url);
+        await LoadData();
     }
 
     public class Coin
@@ -58,5 +62,27 @@ else
         public decimal CurrentPrice { get; set; }
         [JsonPropertyName("market_cap")]
         public decimal MarketCap { get; set; }
+    }
+    public async Task LoadData()
+    {
+        var client = new HttpClient();
+        var starter = client.BaseAddress = new Uri("https://api.coingecko.com");
+        client.DefaultRequestHeaders.Add("User-Agent", "CryptoPriceTrackerApp");
+        var url = "api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
+        var list = await client.GetFromJsonAsync<List<Coin>>(url);
+        if (list != null)
+        {
+            cryptos = selectedOrder?.ToLower() switch
+            {
+                "price" => list.OrderByDescending(c => c.CurrentPrice).ToList(),
+                "marketcap" => list.OrderByDescending(c => c.MarketCap).ToList(),
+                "rank" => list.OrderBy(c => c.MarketCapRank).ToList(),
+                _ => list
+            };
+        }
+        else
+        {
+            cryptos = new List<Coin>();
+        }
     }
 }

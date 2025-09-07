@@ -31,7 +31,7 @@ app.MapGet("/api/CryptoList", async (CryptoMarketService service) =>
     }
     catch (Exception ex)
     {
-        throw new Exception($"Method causing issue: {service.GetTop100Cryptos()}", ex);
+        throw new Exception($"Method causing issue: {nameof(CryptoMarketService.GetTop100Cryptos)}",ex);
     }
 });
 
