@@ -16,6 +16,8 @@ else
     <option value="rank">Rank</option>
 </select>
 
+    <p><strong>Last Updated:</strong> @lastUpdated.ToString("yyyy-MM-dd HH:mm:ss")</p>
+    <button class="btn btn-success mb-3" @onclick="RefreshData">🔄 Refresh Prices</button>
     <table class="table">
         <thead>
             <tr>
@@ -44,6 +46,7 @@ else
 @code {
     private List<Coin>? cryptos;
     private string? selectedOrder = "marketcap";
+    private DateTime lastUpdated;
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,6 +73,7 @@ else
         client.DefaultRequestHeaders.Add("User-Agent", "CryptoPriceTrackerApp");
         var url = "api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false";
         var list = await client.GetFromJsonAsync<List<Coin>>(url);
+        lastUpdated = DateTime.Now; // timestamp of the latest update
         if (list != null)
         {
             cryptos = selectedOrder?.ToLower() switch
@@ -84,5 +88,9 @@ else
         {
             cryptos = new List<Coin>();
         }
+    }
+    private async Task RefreshData()
+    {
+        await LoadData();
     }
 }
