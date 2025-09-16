@@ -1,8 +1,8 @@
 # 📈 Crypto Price Tracker
 
-A simple .NET 9 + Blazor WebAssembly** project built with **Clean Architecture** principles to practice modern .NET development, API integration, and frontend skills.  
+A simple .NET 9 + Blazor WebAssembly project built with "Clean Architecture" principles to practice modern .NET development, API integration, and frontend skills.  
 
-This app fetches the Top 100 cryptocurrencies** from the CoinGecko API (https://www.coingecko.com/en/api) and displays them in a Blazor WebAssembly UI with ordering support (by Market Cap, Price, or Rank).  
+This app fetches the Top 100 cryptocurrencies from the CoinGecko API (https://www.coingecko.com/en/api) and displays them in a Blazor WebAssembly UI with ordering support (by Market Cap, Price, or Rank).  
 
 ## 🚀 Features
 - Minimal API backend in .NET 9  
