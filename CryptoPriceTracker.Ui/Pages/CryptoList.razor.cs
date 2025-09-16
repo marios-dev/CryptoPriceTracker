@@ -8,10 +8,20 @@ namespace CryptoPriceTracker.Ui.Pages
         private List<Coin>? cryptos;
         private string? selectedOrder = "marketcap";
         private DateTime lastUpdated;
+        private bool isLoading = false;
 
         protected override async Task OnInitializedAsync()
         {
-            await LoadData();
+            try
+            {
+                isLoading = true;
+                await LoadData();
+            }
+
+            finally
+            {
+                isLoading = false;
+            }
         }
 
         public class Coin

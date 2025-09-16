@@ -18,29 +18,43 @@ else
 
     <p><strong>Last Updated:</strong> @lastUpdated.ToString("yyyy-MM-dd HH:mm:ss")</p>
     <button class="btn btn-success mb-3" @onclick="RefreshData">🔄 Refresh Prices</button>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Symbol</th>
-                <th>Price (USD)</th>
-                <th>Market Cap</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var coin in cryptos)
-            {
+
+    @if (isLoading)
+    {
+        <div class="spinner-border text-success" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    }
+    else if (cryptos == null)
+    {
+        <p>No data available.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@coin.MarketCapRank</td>
-                    <td>@coin.Name</td>
-                    <td>@coin.Symbol.ToUpper()</td>
-                    <td>$@coin.CurrentPrice.ToString("N2")</td>
-                    <td>$@coin.MarketCap.ToString("N0")</td>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Symbol</th>
+                    <th>Price (USD)</th>
+                    <th>Market Cap</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var coin in cryptos)
+                {
+                    <tr>
+                        <td>@coin.MarketCapRank</td>
+                        <td>@coin.Name</td>
+                        <td>@coin.Symbol.ToUpper()</td>
+                        <td>$@coin.CurrentPrice.ToString("N2")</td>
+                        <td>$@coin.MarketCap.ToString("N0")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 }
 
 @* @code {
